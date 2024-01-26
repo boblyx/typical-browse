@@ -1,0 +1,19 @@
+{
+  "name": "typical_browse",
+  "version": "1.0.0",
+  "description": "For testing laptop battery life.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "build": "esbuild index.js --bundle --platform=node --outfile=./dist/app-out.js"
+    ,"compile": "bash build.sh"
+    ,"clean": "rm -rf dist"
+  },
+  "author": "Bob LYX",
+  "license": "MIT",
+  "dependencies": {
+    "esbuild": "^0.19.12",
+    "puppeteer": "^21.9.0",
+    "typescript": "^5.3.3"
+  }
+}
