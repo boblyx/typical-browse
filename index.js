@@ -61,9 +61,13 @@ async function run_video(){
   const browser = await puppeteer.launch(b_opt);
   const page = await browser.newPage();
   if(true){
+    try{
     await page.goto(video_link, {timeout:0});
     const play = await page.$('.ytp-large-play-button');
-    await play.click();
+      await play.click();
+    }catch(err){
+      console.log(err);
+    }
     await new Promise(r=>{setTimeout(r, 30000)});
   }
 }
@@ -79,7 +83,11 @@ async function run_browse(){
   while(true){
   for (let i =0; i < browse_links.length; i++){
     let link = browse_links[i];
-    await page.goto(link, {timeout: 0});
+    try{
+      await page.goto(link, {timeout: 0});
+    }catch(err){
+      console.log(err);
+    }
     await new Promise(r=>{setTimeout(r, 10000)});
   }
     await new Promise(r=>{setTimeout(r, 10000)});
