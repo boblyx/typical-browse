@@ -118,23 +118,44 @@ makedirs(LOG_FOLDER);
 makedirs('C:/tmp');
 makedirs(TEST_FOLDER);
 
-console.log("Starting video browser!");
-run_video();
-console.log("Starting surfing browser!");
-run_browse();
 console.log(`Check Duration at ${LOG_FOLDER}`);
 console.log("Press CTRL+C to stop the test!");
 let start_time = Date.now();
 let written = false;
 let log_file = LOG_FOLDER+`/Log-${String(Date.now())}.txt`;
-logTime( (ms) => {
-  let out_text = 'Time Elapsed: ' + String(((ms - start_time)/3600000).toFixed(7)) + ' hours' 
-  console.log(out_text);
-  if(written == false){
-    fs.writeFileSync(log_file, out_text+"\n");
-    written = true;
-  }else{
-    fs.appendFileSync(log_file, out_text+"\n");
+
+function startLog(){
+  logTime( (ms) => {
+    let out_text = 'Time Elapsed: ' + String(((ms - start_time)/3600000).toFixed(7)) + ' hours' 
+    console.log(out_text);
+    if(written == false){
+      fs.writeFileSync(log_file, out_text+"\n");
+      written = true;
+    }else{
+      fs.appendFileSync(log_file, out_text+"\n");
+    }
+  });
+}
+
+async function run(){
+  let running = false;
+  while(true){
+    if(running == false){
+      try{
+        console.log("Starting Video and Browse!");
+        run_video();
+        run_browse();
+      }catch(err){
+        console.log(err);
+        console.log("Restarting Program");
+        running = false;
+      }
+      startLog();
+      running = true;
+    } 
+    await new Promise(r=>{setTimeout(r, 1000)});
   }
-});
+}
+
+run();
 
